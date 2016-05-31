@@ -12,18 +12,16 @@ $(document).ready(function() {
     addTableRow(stops, counter)
   });
 
-// add rows by the value in stops input
+  // add rows by the value in stops input
   addTableRow = function(rows, counter) {
     for (var i = 1; i <= rows; i++) {
-      var origin = $("input[name=origin]").val();
-      var destination = $("input[name=destination]").val()
       table.row.add(
         [
           '<button class="btn btn-success" onclick="addrow(this)">+</button>',
           '<button class="btn btn-default" id="removeButton">-</button>',
           ++counter,
-          '<input type="text" name="data-origin" value=' +origin+' >',
-          '<input type="text" name="data-dest" value='+destination+' >',
+          $("input[name=origin]").val(),
+          $("input[name=destination]").val(),
           $("input[name=start]").val(),
           $("input[name=enddate]").val()
         ]
@@ -32,19 +30,19 @@ $(document).ready(function() {
   }
 
 
-/**
+  /**
 
-Deleting row when remove button is clicked
-The row is deleted and redraw the entire table
+  Deleting row when remove button is clicked
+  The row is deleted and redraw the entire table
 
-*/
+  */
 
-  $('#example tbody').on('click', '#removeButton', function() {
+  $('#trip-data-table tbody').on('click', '#removeButton', function() {
     table
       .row($(this).parents('tr'))
       .remove()
       .draw();
-
+    debugger;
     var counter = table.rows().count();
     var index = 0;
 
@@ -65,20 +63,14 @@ The row is deleted and redraw the entire table
         '<button class="btn btn-success" onclick="addrow(this)">+</button>',
         '<button class="btn btn-default" id="removeButton">-</button>',
         ++counter,
-        '<input type="text" name="data-origin" value=' +origin+' >',
-        '<input type="text" name="data-dest" value='+destination+' >',
+        $("input[name=origin]").val(),
+        $("input[name=destination]").val(),
         $("input[name=start]").val(),
         $("input[name=enddate]").val()
       ]
     ).draw();
-
     $("input[name=stops]").val(counter++);
   }
 
-
-  rowData = function () {
-    addButton = '<button class="btn btn-success" onclick="addrow(this)">+</button>';
-    removeButton = '<button class="btn btn-default" id="removeButton">-</button>';
-  }
 
 });
