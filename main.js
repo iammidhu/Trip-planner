@@ -55,7 +55,7 @@ $(document).ready(function() {
   //initialising row data
   rowData = function() {
     addButton = '<button class="btn btn-success" onclick="addrow(this)">+</button>';
-    removeButton = '<button class="btn btn-default" id="removeButton">-</button>';
+    removeButton = '<button class="btn btn-default" onclick="deleteRow(this)">-</button>';
     originInput = '<input type="text" class="form-control" onfocusout="changeOrigin(this)" name="data-origin">';
     destinationInput = '<input type="text" class="form-control" onfocusout="changeDestination(this)" name="data-destination">';
   }
@@ -66,25 +66,40 @@ $(document).ready(function() {
   The row is deleted and redraw the entire table
 
   */
-
-  $('#trip-data-table tbody').on('click', '#removeButton', function() {
-
+  deleteRow = function(node) {
+    var index = table.row($(node).parents('tr')).index() + 1;
     table
-      .row($(this).parents('tr'))
+      .row($(node).parents('tr'))
       .remove()
       .draw();
-
     var counter = table.rows().count();
-    var index = 0;
+    // var index = 0;
+    //
+    // table
+    //   .clear()
+    //   .draw();
+    // addTableRow(counter, index);
 
-    table
-      .clear()
-      .draw();
-    addTableRow(counter, index);
+    updateIndex(index);
     setOrigin();
     setDestination();
     $("input[name=stops]").val(counter);
-  });
+  }
+
+  updateIndex = function(rowIndex) {
+    var currentPage = table.page();
+    var newId = rowIndex - 1;
+    var tableData;
+    var rowCount = table.rows().count();
+    for (var i = newId; i < rowCount; i++) {
+      table.cell({
+        row: i,
+        column: 2
+      }).data(++newId)
+    }
+
+
+  }
 
   //adding new rows to existing table
 
