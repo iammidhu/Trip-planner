@@ -22,18 +22,18 @@ $(document).ready(function() {
       row: 0,
       column: 3
     }).data(
-      '<input type="text" id="origin" class="form-control" value="' + origin + '" />'
+      '<input type="text" class="form-control" value="' + origin + '" />'
     ).draw();
   }
 
   setDestination = function() {
-    var total = table.rows().count();
-    table.cell({
-      row: total-1,
-      column: 4
-    }).data(
-      '<input type="text" id="origin" class="form-control" value="' + destination + '" />'
-    ).draw();
+      var total = table.rows().count();
+      table.cell({
+        row: total - 1,
+        column: 4
+      }).data(
+        '<input type="text" class="form-control" onfocusout="changeDestination(this)" value="' + destination + '" />'
+      ).draw();
     }
     // add rows by the value in stops input
   addTableRow = function(rows, counter) {
@@ -56,8 +56,8 @@ $(document).ready(function() {
   rowData = function() {
     addButton = '<button class="btn btn-success" onclick="addrow(this)">+</button>';
     removeButton = '<button class="btn btn-default" id="removeButton">-</button>';
-    originInput = '<input type="text" name="data-origin">';
-    destinationInput = '<input type="text" name="data-destination">';
+    originInput = '<input type="text" class="form-control" onfocusout="changeOrigin(this)" name="data-origin">';
+    destinationInput = '<input type="text" class="form-control" onfocusout="changeDestination(this)" name="data-destination">';
   }
 
   /**
@@ -67,8 +67,8 @@ $(document).ready(function() {
 
   */
 
-  $('#example tbody').on('click', '#removeButton', function() {
-    debugger;
+  $('#trip-data-table tbody').on('click', '#removeButton', function() {
+
     table
       .row($(this).parents('tr'))
       .remove()
@@ -81,47 +81,48 @@ $(document).ready(function() {
       .clear()
       .draw();
     addTableRow(counter, index);
-
+    setOrigin();
+    setDestination();
     $("input[name=stops]").val(counter);
   });
 
-  // removeRow = function() {
-  //   debugger;
-  //   table
-  //     .row($(this).parents('tr'))
-  //     .remove()
-  //     .draw();
-  //
-  //   var counter = table.rows().count();
-  //   var index = 0;
-  //   debugger;
-  //   table
-  //     .clear()
-  //     .draw();
-  //   addTableRow(counter, index);
-  //
-  //   $("input[name=stops]").val(counter);
-  // };
+  //adding new rows to existing table
 
-//adding new rows to existing table
+  addrow = function() {
+    var counter = table.rows().count();
+    rowData();
+    table.row.add(
+      [
+        addButton,
+        removeButton,
+        ++counter,
+        originInput,
+        destinationInput,
+        $("input[name=start]").val(),
+        $("input[name=enddate]").val()
+      ]
+    ).draw();
+    setDestination();
+    $("input[name=stops]").val(counter++);
+  }
 
-addrow = function() {
-  var counter = table.rows().count();
-  rowData();
-  table.row.add(
-    [
-      addButton,
-      removeButton,
-      ++counter,
-      originInput,
-      destinationInput,
-      $("input[name=start]").val(),
-      $("input[name=enddate]").val()
-    ]
-  ).draw();
 
-  $("input[name=stops]").val(counter++);
-}
+  changeOrigin = function(node) {
 
+    var id = table.row($(node).parents('tr')).index();
+    console.log(id);
+  }
+
+  changeDestination = function(node) {
+
+    var id = table.row($(node).parents('tr')).index();
+
+    table.cell({
+      row: id + 1,
+      column: 3
+    }).data(
+      '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value="' + $(node).val() + '"/>'
+    );
+  }
 
 });
