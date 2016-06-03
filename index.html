@@ -6,11 +6,12 @@
   <title>Trip</title>
   <link rel="stylesheet" href="styles/style.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="styles/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/smoothness/jquery-ui.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" media="screen" title="no title" charset="utf-8">
   <script src="src/jquery.min.js" charset="utf-8"></script>
-  <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" charset="utf-8"></script>
+  <script src="src/jquery.dataTables.min.js" charset="utf-8"></script>
+  <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
   <script src="js/main.js" charset="utf-8"></script>
-
 </head>
 
 <body>
@@ -23,11 +24,11 @@
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <label for="origin">Origin</label>
-            <input type="text" class="form-control" required name="origin" value="">
+            <input type="text" class="form-control" required id="origin" value="">
           </div>
           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <label for="origin">Destination</label>
-            <input type="text" class="form-control" required="" name="destination" value="">
+            <input type="text" class="form-control" required="" id="destination" value="">
           </div>
           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <label for="start">Start Date</label>

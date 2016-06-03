@@ -1,15 +1,33 @@
 $(document).ready(function() {
   var table = $('#trip-data-table').DataTable();
   var addButton, removeButton, origin, desitination;
+  var dataSrc = ["australia", "austria", "antartica", "argentina", "algeria"];
 
+  $(function() {
+    var destinations = [
+      "Kasargod", "Kottayam", "Kollam",
+      "Trivandrum", "Pathanamthitta",
+      "Kochi", "Thrissur", "Palakkad",
+      "Kannur", "Calicut", "Malappuram",
+      "Idukki", "Alappuzha", "Wayanad"
+    ];
+
+    $("#destination").autocomplete({
+      source: destinations
+    });
+
+    $("#origin").autocomplete({
+      source: destinations
+    });
+  });
   //When form submits
 
   $('#search').on('click', function(e) {
     e.preventDefault();
     var stops = $("input[name=stops]").val();
     var counter = table.rows().count();
-    origin = $("input[name=origin]").val();
-    destination = $("input[name=destination]").val();
+    origin = $("#origin").val();
+    destination = $("#destination").val();
     rowData();
     for (var i = 1; i <= stops; i++) {
 
@@ -30,7 +48,6 @@ $(document).ready(function() {
   });
 
   setOrigin = function() {
-
     table.cell({
       row: 0,
       column: 3
@@ -48,7 +65,6 @@ $(document).ready(function() {
       '<input type="text" class="form-control" onfocusout="changeDestination(this)" value="' + destination + '" />'
     ).draw();
   }
-
 
   //initialising row data
   rowData = function() {
@@ -71,12 +87,31 @@ $(document).ready(function() {
       .remove();
     var counter = table.rows().count();
     updateIndex(index);
-    // redrawTable();
-    setOrigin();
-    setDestination();
     $("input[name=stops]").val(counter);
+    redrawTable();
+
   }
 
+
+  redrawTable = function() {
+    var limit = table.rows().count();
+    var value;
+    for (var i = 0; i < limit; i++) {
+      value = $(table.row(i).data()[4]).val();
+      table.cell({
+        row: i + 1,
+        column: 3
+      }).data(
+        '<input type="text" onfocusout="changeOrigin(this)" name="data-destination" class="form-control" value="' + value + '"/>'
+      ).draw();
+    }
+
+    var previousData = table.rows().data();
+    debugger;
+    table.clear().draw();
+    table.rows.add(previousData);
+    table.draw();
+  }
   updateIndex = function(rowIndex) {
     var currentPage = table.page();
     var newId = rowIndex - 1;
@@ -109,48 +144,43 @@ $(document).ready(function() {
       ]
     ).draw();
 
-    // redrawTable();
     setDestination();
     $("input[name=stops]").val(counter++);
   }
 
-  redrawTable = function() {
-    var limit = table.rows().count();
-    var value;
-    for (var i = 0; i < limit ; i++) {
-      value = table.cell({row: i, column: 4}).data();
-      table.cell({
-        row: i+1,
-        column: 3
-      }).data(
-        '<input type="text" onfocusout="changeOrigin(this)" name="data-destination" class="form-control" value="' + value + '"/>'
-      ).draw();
-    }
 
-    var previousData = table.rows().data();
-    table.clear().draw();
-    table.rows.add(previousData);
-    table.draw();
-  }
 
   changeOrigin = function(node) {
     var ind = table.row($(node).parents('tr')).index();
     table.cell({
+      row: ind,
+      column: 3
+    }).data(
+      '<input type="text" onfocusout="changeOrigin(this)" name="data-origin" class="form-control" value="' + $(node).val() + '"/>'
+    ).draw();
+    table.cell({
       row: ind - 1,
       column: 4
     }).data(
-      '<input type="text" onfocusout="changeDestination(this)" name="data-origin" class="form-control" value="' + $(node).val() + '"/>'
+      '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value="' + $(node).val() + '"/>'
     ).draw();
   }
+  
   changeDestination = function(node) {
     var id = table.row($(node).parents('tr')).index();
+    table.cell({
+      row: id,
+      column: 4
+    }).data(
+      '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value="' + $(node).val() + '"/>'
+    ).draw();
+
     table.cell({
       row: id + 1,
       column: 3
     }).data(
-      '<input type="text" onfocusout="changeOrigin(this)" name="data-destination" class="form-control" value="' + $(node).val() + '"/>'
+      '<input type="text" onfocusout="changeOrigin(this)" name="data-origin" class="form-control" value="' + $(node).val() + '"/>'
     ).draw();
-
   }
 
 });
