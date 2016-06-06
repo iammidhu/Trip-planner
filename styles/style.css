@@ -20,6 +20,7 @@ body {
 }
 .form-elements {
   padding: 25px 100px 0 100px;
+  border: 1px solid #ccc;
 }
 .button-container {
   padding: 20px 0 20px 15px;
