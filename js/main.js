@@ -81,9 +81,7 @@ $(document).ready(function() {
     */
     deleteRow = function(node) {
         var index = table.row($(node).parents('tr')).index() + 1;
-        table
-            .row($(node).parents('tr'))
-            .remove();
+        table.row($(node).parents('tr')).remove();
         var counter = table.rows().count();
         updateIndex(index);
         $("input[name=stops]").val(counter);
@@ -145,7 +143,7 @@ $(document).ready(function() {
         var counter = table.rows().count();
 
         rowData();
-        table.row.add(
+        var newRow = table.row.add(
             [
                 addButton,
                 removeButton,
@@ -170,7 +168,7 @@ $(document).ready(function() {
             '<input type="text" onfocusout="changeOrigin(this)" name="data-origin" class="form-control" value="' + $(node).val() + '"/>'
         ).draw();
         table.cell({
-            row: rowIndex-1,
+            row: rowIndex - 1,
             column: 4
         }).data(
             '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value="' + $(node).val() + '"/>'
