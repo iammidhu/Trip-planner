@@ -20,8 +20,7 @@ $(document).ready(function() {
         });
     });
     //When form submits
-
-    $('#search').on('click', function(e) {
+    $("#search").on('click', function(e) {
         e.preventDefault();
         var stops = $("input[name=stops]").val();
         var counter = table.rows().count();
@@ -56,7 +55,6 @@ $(document).ready(function() {
     }
 
     setDestination = function() {
-      debugger;
         var total = table.rows().count();
         table.cell({
             row: total - 1,
@@ -86,6 +84,7 @@ $(document).ready(function() {
         var counter = table.rows().count();
         updateIndex(index);
         $("input[name=stops]").val(counter);
+        setOrigin();
         setDestination();
         redrawTable();
 
@@ -93,14 +92,13 @@ $(document).ready(function() {
 
 
     redrawTable = function(addIndex) {
-
         var limit = table.rows().count();
-        var lastDestination = limit - 2;
+        var lastDestination = limit - 1;
         var value;
         for (var i = 0; i < limit; i++) {
             if ((i + 1) == addIndex) {
                 table.cell({
-                    row: lastDestination,
+                    row: lastDestination - 1,
                     column: 4
                 }).data(
                     '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value=""/>'
@@ -112,9 +110,9 @@ $(document).ready(function() {
                 }).data(
                     '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value=""/>'
                 ).draw();
-
                 ++i;
                 continue;
+
             }
             value = $(table.row(i).data()[4]).val();
             table.cell({

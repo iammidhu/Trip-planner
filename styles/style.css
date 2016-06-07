@@ -1,5 +1,6 @@
 .data-table {
   padding: 100px;
+  background-color: white;
 }
 body {
   overflow-x: hidden;
@@ -7,10 +8,11 @@ body {
 .heading {
   width: 100%;
   padding: 20px;
-  background-color: #ecf0f1;
+  background-color: #0F4159;
+  color: #fff;
 }
 .footer-container {
-  border: 2px solid #ecf0f1;
+  border: 2px solid #CAD4D6;
   height: 50px;
   position: relative;
   bottom: 0;
@@ -24,7 +26,12 @@ body {
 }
 .button-container {
   padding: 20px 0 20px 15px;
+  float: right;
 }
 label {
-  color: brown;
+  color: white;
+}
+.img-background{
+  background-image: url('../fiji-tripplanner-about.jpg');
+  background-repeat: no-repeat;
 }
