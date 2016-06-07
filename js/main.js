@@ -84,9 +84,9 @@ $(document).ready(function() {
         var counter = table.rows().count();
         updateIndex(index);
         $("input[name=stops]").val(counter);
-        setOrigin();
         setDestination();
         rowAfterDelete();
+        setOrigin();
     }
 
     rowAfterDelete = function() {
@@ -137,7 +137,7 @@ $(document).ready(function() {
         $("input[name=stops]").val(counter++);
         setDestination();
         redrawTable(index, rows);
-
+        setOrigin();
     }
 
     redrawTable = function(addIndex, fullData) {
