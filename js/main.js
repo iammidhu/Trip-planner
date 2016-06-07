@@ -56,6 +56,7 @@ $(document).ready(function() {
     }
 
     setDestination = function() {
+      debugger;
         var total = table.rows().count();
         table.cell({
             row: total - 1,
@@ -85,6 +86,7 @@ $(document).ready(function() {
         var counter = table.rows().count();
         updateIndex(index);
         $("input[name=stops]").val(counter);
+        setDestination();
         redrawTable();
 
     }
