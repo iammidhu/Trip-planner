@@ -86,43 +86,23 @@ $(document).ready(function() {
         $("input[name=stops]").val(counter);
         setOrigin();
         setDestination();
-        redrawTable();
-
+        rowAfterDelete();
     }
 
-
-    redrawTable = function(addIndex) {
+    rowAfterDelete = function() {
         var limit = table.rows().count();
-        var lastDestination = limit - 1;
         var value;
-        for (var i = 0; i < limit; i++) {
-            if ((i + 1) == addIndex) {
-                table.cell({
-                    row: lastDestination - 1,
-                    column: 4
-                }).data(
-                    '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value=""/>'
-                ).draw();
-
-                table.cell({
-                    row: addIndex,
-                    column: 4
-                }).data(
-                    '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value=""/>'
-                ).draw();
-                ++i;
-                continue;
-
-            }
-            value = $(table.row(i).data()[4]).val();
+        for (var i = limit - 1; i > 0; i--) {
+            value = $(table.row(i).data()[3]).val();
             table.cell({
-                row: i + 1,
-                column: 3
+                row: i - 1,
+                column: 4
             }).data(
                 '<input type="text" onfocusout="changeOrigin(this)" name="data-destination" class="form-control" value="' + value + '"/>'
             ).draw();
         }
     }
+
     updateIndex = function(rowIndex) {
         var currentPage = table.page();
         var newId = rowIndex - 1;
@@ -139,9 +119,9 @@ $(document).ready(function() {
     //adding new rows to existing table
 
     addrow = function(node) {
-        var index = table.row($(node).parents('tr')).index() + 1;
+        var index = table.row($(node).parents('tr')).index();
         var counter = table.rows().count();
-
+        var rows = table.rows().data();
         rowData();
         var newRow = table.row.add(
             [
@@ -154,9 +134,43 @@ $(document).ready(function() {
                 $("input[name=enddate]").val()
             ]
         ).draw();
-        setDestination();
-        redrawTable(index);
         $("input[name=stops]").val(counter++);
+        setDestination();
+        redrawTable(index, rows);
+
+    }
+
+    redrawTable = function(addIndex, fullData) {
+        var limit = table.rows().count();
+        var value;
+        // making indexed row destination value null
+        table.cell({
+            row: addIndex,
+            column: 4
+        }).data(
+            '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value=""/>'
+        ).draw();
+        for (var i = addIndex; i <(limit-2); i++) {
+
+            value = $(table.row(i + 1).data()[3]).val();
+            table.cell({
+                row: i + 1,
+                column: 4
+            }).data(
+                '<input type="text" onfocusout="changeOrigin(this)" name="data-destination" class="form-control" value="' + value + '"/>'
+            ).draw();
+        }
+
+        for (var i = 0; i < limit; i++) {
+            value = $(table.row(i).data()[4]).val();
+            table.cell({
+                row: i + 1,
+                column: 3
+            }).data(
+                '<input type="text" onfocusout="changeOrigin(this)" name="data-destination" class="form-control" value="' + value + '"/>'
+            ).draw();
+        }
+
     }
 
     changeOrigin = function(node) {
