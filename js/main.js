@@ -98,7 +98,7 @@ $(document).ready(function() {
                 row: i - 1,
                 column: 4
             }).data(
-                '<input type="text" onfocusout="changeOrigin(this)" name="data-destination" class="form-control" value="' + value + '"/>'
+                '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value="' + value + '"/>'
             ).draw();
         }
     }
@@ -157,7 +157,7 @@ $(document).ready(function() {
                 row: i + 1,
                 column: 4
             }).data(
-                '<input type="text" onfocusout="changeOrigin(this)" name="data-destination" class="form-control" value="' + value + '"/>'
+                '<input type="text" onfocusout="changeDestination(this)" name="data-destination" class="form-control" value="' + value + '"/>'
             ).draw();
         }
 
